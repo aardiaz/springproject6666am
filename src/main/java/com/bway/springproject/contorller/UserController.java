@@ -1,5 +1,7 @@
 package com.bway.springproject.contorller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,8 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
+	
+	private static final Logger  log = LoggerFactory.getLogger(UserController.class);
 	
 	 @Autowired
 	private UserService  userService;
@@ -34,6 +38,8 @@ public class UserController {
 		
 		if(usr != null) {
 			
+			  log.info("------user login success--------");
+			  
 			session.setAttribute("activeuser", usr);
 			session.setMaxInactiveInterval(120);//session expire time
 			
@@ -42,6 +48,7 @@ public class UserController {
 			return "Home";
 		}
 		
+		log.info("------------- login failed--------------");
 		model.addAttribute("message","user not found");
 		return "LoginForm";
 	}
@@ -63,6 +70,8 @@ public class UserController {
 	
 	@GetMapping("/logout")
 	public  String logout(HttpSession session) {
+		
+		log.info("-------user logout success ------------");
 		
 		session.invalidate(); //session kill
 		return "LoginForm";
