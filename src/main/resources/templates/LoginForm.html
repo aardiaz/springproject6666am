@@ -9,10 +9,10 @@
 
     <!-- Main css -->
     <link rel="stylesheet" href="/login/css/style.css">
-    
+     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+     
 </head>
 <body>
-	
 	
 	<div class="container-fluid">
 		
@@ -41,6 +41,8 @@
                                 <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
                                 <input type="password" name="password" id="your_pass" placeholder="Password"/>
                             </div>
+                            
+                             <div class="g-recaptcha" data-sitekey="6LdYbpkpAAAAAK8Gnst_sgjlR6hqotbmqsbWxlP_"></div>
                             
                             <div class="form-group form-button">
                                 <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
