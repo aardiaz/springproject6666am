@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bway.springproject.model.User;
+import com.bway.springproject.repository.ProductRepository;
 import com.bway.springproject.service.UserService;
 import com.bway.springproject.serviceimpl.UserServiceImpl;
 import com.bway.springproject.utils.VerifyRecaptcha;
@@ -28,7 +29,10 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@GetMapping({ "/", "/login" })
+	@Autowired
+	private ProductRepository prodRepository;
+	
+	@GetMapping("/login")
 	public String getLogin() {
 
 		return "LoginForm";
@@ -44,16 +48,22 @@ public class UserController {
 			User usr = userService.userLogin(user.getEmail(), user.getPassword());
 
 			if (usr != null) {
-
+				
 				log.info("------user login success--------");
 
 				session.setAttribute("activeuser", usr);
 				session.setMaxInactiveInterval(120);// session expire time
 
-				// model.addAttribute("uname",usr.getFname());
 
-				return "Home";
-			}else {
+				if (usr.getRole().equalsIgnoreCase("admin")) {
+					return "Home";
+				} else {
+					
+					model.addAttribute("pList",prodRepository.findAll());
+					return "CustomerDashboard";
+				}
+
+			} else {
 				log.info("------------- login failed--------------");
 				model.addAttribute("message", "user not found");
 				return "LoginForm";
@@ -64,7 +74,7 @@ public class UserController {
 		model.addAttribute("message", "are you ROBOT?");
 		return "LoginForm";
 	}
-	
+
 	@GetMapping("/signup")
 	public String getSignup() {
 

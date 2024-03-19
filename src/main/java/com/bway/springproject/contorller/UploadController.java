@@ -41,8 +41,12 @@ public class UploadController {
 						  return "UploadForm";
 				    }
 				  
+				    //send image name in db
+				    //Image pojo
+				    //ImageRepository
+				    //imgRepo.save(Image ko object);
 				Files.copy(image.getInputStream(), Path.of("src/main/resources/static/image/"+image.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
-			
+				
 				  model.addAttribute("message","upload success");
 				  return "UploadForm";
 			  
